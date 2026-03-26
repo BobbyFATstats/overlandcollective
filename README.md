@@ -1,2 +1,0 @@
-# overlandcollective
-Overland Collective

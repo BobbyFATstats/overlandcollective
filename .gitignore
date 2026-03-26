@@ -7,3 +7,4 @@
 .playwright-mcp/
 .superpowers/
 node_modules/
+.vercel
