@@ -46,6 +46,10 @@
 - **Spacing:** Use intentional, consistent spacing tokens — not random Tailwind steps.
 - **Depth:** Surfaces should have a layering system (base → elevated → floating), not all sit at the same z-plane.
 
+## Git Workflow
+- **Always test on localhost first.** Do not commit or push to GitHub until the user explicitly tells you to.
+- No untested changes should ever go live.
+
 ## Hard Rules
 - Do not add sections, features, or content not in the reference
 - Do not "improve" a reference design — match it
