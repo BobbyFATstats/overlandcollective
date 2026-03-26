@@ -1,0 +1,9 @@
+# Screenshots (dev only)
+*.png
+!brand_assets/*.png
+!buy_box/*.png
+
+# Dev tools
+.playwright-mcp/
+.superpowers/
+node_modules/

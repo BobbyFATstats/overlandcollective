@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources | Overland Collective</title>
+  <meta name="description" content="Free resources for bird dogs, wholesalers, and brokers working with Overland Collective.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#1A1A1A',
+            rust: '#C4651A',
+            'rust-dark': '#8B4513',
+            'rust-light': '#D97B2B',
+            stone: '#6C6C6C',
+            warmgrey: '#F7F5F2',
+            cream: '#FAF9F7',
+          },
+          fontFamily: {
+            heading: ['Montserrat', 'sans-serif'],
+            body: ['Source Serif 4', 'Georgia', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .nav-link { position: relative; transition: color 0.2s ease; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+      background-color: #C4651A; transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link:hover { color: #C4651A; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible { outline: 2px solid #C4651A; outline-offset: 4px; border-radius: 2px; }
+
+    .dropdown { position: relative; }
+    .dropdown-menu {
+      position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(8px);
+      min-width: 180px; background: #fff; border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 8px; box-shadow: 0 8px 24px rgba(26,26,26,0.08), 0 2px 8px rgba(26,26,26,0.04);
+      padding: 6px; opacity: 0; visibility: hidden;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; z-index: 60;
+    }
+    .dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu {
+      opacity: 1; visibility: visible; transform: translateX(-50%) translateY(4px);
+    }
+    .dropdown-menu a {
+      display: block; padding: 8px 14px; font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      color: #6C6C6C; border-radius: 6px; transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .dropdown-menu a:hover { background-color: #F7F5F2; color: #C4651A; }
+
+    .resource-card {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    }
+    .resource-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(26,26,26,0.08), 0 4px 12px rgba(196,101,26,0.06);
+    }
+    .resource-card:focus-visible { outline: 2px solid #C4651A; outline-offset: 4px; }
+
+    .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+    .mobile-menu.open { max-height: 300px; }
+  </style>
+</head>
+<body class="bg-white text-obsidian font-body antialiased">
+
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-black/5" id="nav">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[72px]">
+        <a href="/" class="flex items-center gap-3 group">
+          <img src="/brand_assets/overland_collective_logo.png" alt="Overland Collective" class="h-14 w-14 transition-transform duration-300 group-hover:scale-105" style="object-fit: contain;">
+          <div class="flex flex-col">
+            <span class="font-heading font-800 text-[14px] tracking-[0.08em] uppercase leading-tight text-obsidian">Overland Collective</span>
+            <span class="font-heading text-[9px] tracking-[0.18em] uppercase text-stone leading-tight">Built to Stay</span>
+          </div>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="/#about" class="nav-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase">About</a>
+          <a href="/#buybox" class="nav-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase">Buy Boxes</a>
+          <div class="dropdown">
+            <a href="/resources/" class="nav-link font-heading text-[13px] font-600 tracking-wide text-rust uppercase inline-flex items-center gap-1 cursor-pointer">
+              Resources
+              <svg class="w-3 h-3 mt-px" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+            </a>
+            <div class="dropdown-menu">
+              <a href="/resources/">All Resources</a>
+              <a href="/resources/bird-dog-guide.html">Bird Dog Guide</a>
+            </div>
+          </div>
+          <a href="/#deal" class="nav-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase">Send a Deal</a>
+          <a href="/#investors" class="nav-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase">Investors</a>
+        </div>
+        <button id="menu-toggle" class="md:hidden flex flex-col gap-[5px] p-2" aria-label="Toggle menu">
+          <span class="block w-5 h-[2px] bg-obsidian transition-transform duration-300" id="bar1"></span>
+          <span class="block w-5 h-[2px] bg-obsidian transition-opacity duration-300" id="bar2"></span>
+          <span class="block w-5 h-[2px] bg-obsidian transition-transform duration-300" id="bar3"></span>
+        </button>
+      </div>
+      <div class="mobile-menu md:hidden" id="mobile-menu">
+        <div class="flex flex-col gap-1 pb-5">
+          <a href="/#about" class="font-heading text-[13px] font-600 tracking-wide text-stone uppercase py-3 px-2 rounded hover:bg-warmgrey hover:text-rust transition-colors duration-200">About</a>
+          <a href="/#buybox" class="font-heading text-[13px] font-600 tracking-wide text-stone uppercase py-3 px-2 rounded hover:bg-warmgrey hover:text-rust transition-colors duration-200">Buy Boxes</a>
+          <a href="/resources/" class="font-heading text-[13px] font-600 tracking-wide text-rust uppercase py-3 px-2 rounded hover:bg-warmgrey transition-colors duration-200">Resources</a>
+          <a href="/resources/bird-dog-guide.html" class="font-heading text-[11px] font-600 tracking-wide text-stone/70 uppercase py-2 px-6 rounded hover:bg-warmgrey hover:text-rust transition-colors duration-200">Bird Dog Guide</a>
+          <a href="/#deal" class="font-heading text-[13px] font-600 tracking-wide text-stone uppercase py-3 px-2 rounded hover:bg-warmgrey hover:text-rust transition-colors duration-200">Send a Deal</a>
+          <a href="/#investors" class="font-heading text-[13px] font-600 tracking-wide text-stone uppercase py-3 px-2 rounded hover:bg-warmgrey hover:text-rust transition-colors duration-200">Investors</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE CONTENT -->
+  <main class="pt-[72px]">
+    <!-- Header -->
+    <section class="bg-warmgrey py-20 md:py-28">
+      <div class="max-w-6xl mx-auto px-6 lg:px-8 text-center">
+        <p class="font-heading text-[11px] font-700 tracking-[0.2em] uppercase text-rust mb-4">Free Resources</p>
+        <h1 class="font-heading font-900 text-[clamp(2rem,5vw,3.2rem)] leading-[1.1] tracking-[-0.03em] text-obsidian mb-4">
+          Tools to Help You Send Better Deals
+        </h1>
+        <p class="font-body text-[17px] leading-[1.7] text-stone max-w-lg mx-auto">
+          Whether you're a bird dog, wholesaler, or broker — these free guides will help you find, package, and deliver deals we actually want to buy.
+        </p>
+      </div>
+    </section>
+
+    <!-- Resource Cards -->
+    <section class="py-20 md:py-28">
+      <div class="max-w-4xl mx-auto px-6 lg:px-8">
+        <div class="grid gap-6">
+
+          <!-- Bird Dog Guide Card -->
+          <a href="/resources/bird-dog-guide.html" class="resource-card block bg-white border border-black/[0.06] rounded-xl p-8 lg:p-10 shadow-[0_1px_3px_rgba(26,26,26,0.04),0_4px_12px_rgba(26,26,26,0.03)]">
+            <div class="flex flex-col md:flex-row md:items-center gap-6">
+              <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-rust/10 flex items-center justify-center">
+                <svg class="w-7 h-7 text-rust" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h2 class="font-heading font-800 text-[20px] tracking-[-0.01em] text-obsidian mb-2">Bird Dog Deal Hunting Guide</h2>
+                <p class="font-body text-[15px] leading-[1.7] text-stone">
+                  A free step-by-step checklist for finding and packaging RV park and mobile home park deals. Learn our exact buy box criteria, what questions to ask, and how to deliver deals that actually close.
+                </p>
+              </div>
+              <div class="flex-shrink-0">
+                <span class="inline-flex items-center gap-1 font-heading font-700 text-[12px] tracking-[0.06em] uppercase text-rust">
+                  Get the Guide
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-obsidian border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 py-10 text-center">
+      <img src="/brand_assets/overland_collective_logo.png" alt="Overland Collective" class="h-10 w-10 rounded-full mx-auto mb-4 opacity-40">
+      <p class="font-heading text-[11px] font-600 tracking-[0.1em] uppercase text-stone/50 mb-2">
+        &copy; 2026 Overland Collective. Built to Stay.
+      </p>
+      <p class="font-body text-[13px] text-stone/30">
+        Acquiring &amp; Operating RV Parks and Mobile Home Parks Across the United States
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const bar1 = document.getElementById('bar1');
+    const bar2 = document.getElementById('bar2');
+    const bar3 = document.getElementById('bar3');
+    let menuOpen = false;
+    menuToggle.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('open', menuOpen);
+      bar1.style.transform = menuOpen ? 'rotate(45deg) translate(4px, 4px)' : '';
+      bar2.style.opacity = menuOpen ? '0' : '1';
+      bar3.style.transform = menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : '';
+    });
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.boxShadow = window.scrollY > 10 ? '0 1px 8px rgba(26,26,26,0.06)' : 'none';
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

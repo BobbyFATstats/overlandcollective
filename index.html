@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overland Collective | Built to Stay</title>
+  <meta name="description" content="Overland Collective acquires and operates RV parks and mobile home parks across the United States. Send us your deal.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#1A1A1A',
+            rust: '#C4651A',
+            'rust-dark': '#8B4513',
+            'rust-light': '#D97B2B',
+            stone: '#6C6C6C',
+            warmgrey: '#F7F5F2',
+            cream: '#FAF9F7',
+          },
+          fontFamily: {
+            heading: ['Montserrat', 'sans-serif'],
+            body: ['Source Serif 4', 'Georgia', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    /* Base resets */
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    /* Scroll offset for sticky nav */
+    [id] { scroll-margin-top: 80px; }
+
+    /* Fade-in-up animation for scroll reveals */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered children */
+    .reveal-stagger > .reveal:nth-child(1) { transition-delay: 0ms; }
+    .reveal-stagger > .reveal:nth-child(2) { transition-delay: 120ms; }
+    .reveal-stagger > .reveal:nth-child(3) { transition-delay: 240ms; }
+    .reveal-stagger > .reveal:nth-child(4) { transition-delay: 360ms; }
+
+    /* Button hover glow */
+    .btn-rust {
+      position: relative;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+    }
+    .btn-rust:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(196, 101, 26, 0.25), 0 2px 8px rgba(196, 101, 26, 0.15);
+    }
+    .btn-rust:active {
+      transform: translateY(0px);
+      box-shadow: 0 2px 8px rgba(196, 101, 26, 0.2);
+    }
+    .btn-rust:focus-visible {
+      outline: 2px solid #C4651A;
+      outline-offset: 3px;
+    }
+
+    .btn-outline {
+      position: relative;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, color 0.2s ease;
+    }
+    .btn-outline:hover {
+      transform: translateY(-2px);
+      background-color: #C4651A;
+      color: #fff;
+    }
+    .btn-outline:active {
+      transform: translateY(0px);
+    }
+    .btn-outline:focus-visible {
+      outline: 2px solid #C4651A;
+      outline-offset: 3px;
+    }
+
+    /* Nav link underline */
+    .nav-link {
+      position: relative;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #C4651A;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link:hover { color: #8B4513; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible {
+      outline: 2px solid #C4651A;
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
+    /* Buy box card hover */
+    .buybox-card {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    }
+    .buybox-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(26, 26, 26, 0.08), 0 4px 12px rgba(196, 101, 26, 0.06);
+    }
+
+    /* Subtle grain texture overlay */
+    .grain::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mobile-menu.open {
+      max-height: 300px;
+    }
+
+    /* Stat counter */
+    .stat-label {
+      position: relative;
+    }
+    .stat-label::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 2px;
+      background-color: #C4651A;
+      opacity: 0.4;
+    }
+
+    /* Dropdown menu */
+    .dropdown { position: relative; }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      min-width: 180px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(26,26,26,0.08), 0 2px 8px rgba(26,26,26,0.04);
+      padding: 6px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+      transform: translateX(-50%) translateY(8px);
+      z-index: 60;
+    }
+    .dropdown:hover .dropdown-menu,
+    .dropdown:focus-within .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(4px);
+    }
+    .dropdown-menu a {
+      display: block;
+      padding: 8px 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #6C6C6C;
+      border-radius: 6px;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .dropdown-menu a:hover {
+      background-color: #F7F5F2;
+      color: #C4651A;
+    }
+
+    /* Investor email hover */
+    .investor-email {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, color 0.2s ease;
+    }
+    .investor-email:hover {
+      transform: translateY(-1px);
+      background-color: #C4651A;
+      color: #fff;
+    }
+    .investor-email:focus-visible {
+      outline: 2px solid #C4651A;
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body class="bg-white text-obsidian font-body antialiased">
+
+  <!-- ═══════════════ NAVIGATION ═══════════════ -->
+  <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-black/5" id="nav">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[72px]">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <img src="brand_assets/overland_collective_logo.png" alt="Overland Collective" class="h-14 w-14 transition-transform duration-300 group-hover:scale-105" style="object-fit: contain;">
+          <div class="flex flex-col">
+            <span class="font-heading font-800 text-[14px] tracking-[0.08em] uppercase leading-tight text-obsidian">Overland Collective</span>
+            <span class="font-heading text-[9px] tracking-[0.18em] uppercase text-stone leading-tight">Built to Stay</span>
+          </div>
+        </a>
+
+        <!-- Desktop links -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="/#about" class="nav-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase">About</a>
+          <a href="/#buybox" class="nav-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase">Buy Boxes</a>
+          <div class="dropdown">
+            <a href="/resources/" class="nav-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase inline-flex items-center gap-1 cursor-pointer">
+              Resources
+              <svg class="w-3 h-3 mt-px" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+            </a>
+            <div class="dropdown-menu">
+              <a href="/resources/">All Resources</a>
+              <a href="/resources/bird-dog-guide.html">Bird Dog Guide</a>
+            </div>
+          </div>
+          <a href="/#deal" class="nav-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase">Send a Deal</a>
+          <a href="/#investors" class="nav-link font-heading text-[13px] font-600 tracking-wide text-rust uppercase">Investors</a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button id="menu-toggle" class="md:hidden flex flex-col gap-[5px] p-2 focus-visible:outline-2 focus-visible:outline-rust focus-visible:outline-offset-4 rounded" aria-label="Toggle menu">
+          <span class="block w-5 h-[2px] bg-obsidian transition-transform duration-300" id="bar1"></span>
+          <span class="block w-5 h-[2px] bg-obsidian transition-opacity duration-300" id="bar2"></span>
+          <span class="block w-5 h-[2px] bg-obsidian transition-transform duration-300" id="bar3"></span>
+        </button>
+      </div>
+
+      <!-- Mobile menu -->
+      <div class="mobile-menu md:hidden" id="mobile-menu">
+        <div class="flex flex-col gap-1 pb-5">
+          <a href="/#about" class="mobile-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase py-3 px-2 rounded hover:bg-warmgrey hover:text-rust transition-colors duration-200">About</a>
+          <a href="/#buybox" class="mobile-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase py-3 px-2 rounded hover:bg-warmgrey hover:text-rust transition-colors duration-200">Buy Boxes</a>
+          <a href="/resources/" class="mobile-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase py-3 px-2 rounded hover:bg-warmgrey hover:text-rust transition-colors duration-200">Resources</a>
+          <a href="/resources/bird-dog-guide.html" class="mobile-link font-heading text-[11px] font-600 tracking-wide text-stone/70 uppercase py-2 px-6 rounded hover:bg-warmgrey hover:text-rust transition-colors duration-200">Bird Dog Guide</a>
+          <a href="/#deal" class="mobile-link font-heading text-[13px] font-600 tracking-wide text-stone uppercase py-3 px-2 rounded hover:bg-warmgrey hover:text-rust transition-colors duration-200">Send a Deal</a>
+          <a href="/#investors" class="mobile-link font-heading text-[13px] font-600 tracking-wide text-rust uppercase py-3 px-2 rounded hover:bg-warmgrey transition-colors duration-200">Investors</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section class="relative pt-[72px]">
+    <div class="relative min-h-[85vh] flex items-end overflow-hidden">
+      <!-- Background image — sign is the hero -->
+      <div class="absolute inset-0 z-0">
+        <img src="brand_assets/overland_collective_sign.png" alt="Overland Collective sign at a mobile home park community" class="w-full h-full object-cover object-center">
+        <!-- Light overlay — just enough to unify, sign stays visible -->
+        <div class="absolute inset-0 bg-obsidian/30"></div>
+        <!-- Heavier gradient at bottom where text sits -->
+        <div class="absolute bottom-0 left-0 right-0 h-[50%] bg-gradient-to-t from-obsidian/85 via-obsidian/40 to-transparent"></div>
+      </div>
+
+      <!-- Text anchored to bottom — sign stays visible above -->
+      <div class="relative z-10 w-full text-center px-6 pb-16 md:pb-20 pt-32">
+        <h1 class="reveal font-heading font-900 text-[clamp(2.2rem,5.5vw,3.8rem)] leading-[1.08] tracking-[-0.03em] text-white mb-6 drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+          Got a Park? Let's Talk.
+        </h1>
+        <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+          <a href="#buybox" class="btn-rust inline-flex items-center justify-center w-full sm:w-auto px-8 py-3.5 bg-rust text-white font-heading font-700 text-[13px] tracking-[0.06em] uppercase rounded-lg shadow-[0_4px_16px_rgba(196,101,26,0.4)]">
+            View Buy Boxes
+          </a>
+          <a href="#deal" class="btn-outline inline-flex items-center justify-center w-full sm:w-auto px-8 py-3.5 border-2 border-rust text-rust font-heading font-700 text-[13px] tracking-[0.06em] uppercase rounded-lg hover:bg-rust hover:text-white">
+            Send a Deal
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ ABOUT ═══════════════ -->
+  <section id="about" class="relative bg-warmgrey grain overflow-hidden">
+    <div class="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 py-24 md:py-32">
+      <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+        <!-- Text -->
+        <div class="flex-1 max-w-xl">
+          <p class="reveal font-heading text-[11px] font-700 tracking-[0.2em] uppercase text-rust mb-4">Who We Are</p>
+          <h2 class="reveal font-heading font-900 text-[clamp(1.8rem,4vw,2.8rem)] leading-[1.1] tracking-[-0.03em] text-obsidian mb-6">
+            We Don't Flip.<br>We Hold.
+          </h2>
+          <div class="reveal space-y-4 text-[17px] leading-[1.8] text-stone">
+            <p>
+              Overland Collective was built on a simple conviction: communities deserve owners who stay. We acquire RV parks and mobile home parks not to strip and resell, but to invest in them for the long haul — upgrading infrastructure, sharpening operations, and building places people are proud to call home.
+            </p>
+            <p>
+              Our approach blends grit with grace. We do the hard work others avoid — deferred maintenance, operational turnarounds, resident relations done right — because we believe hospitality isn't just a word. It's the standard.
+            </p>
+          </div>
+
+          <!-- Stats -->
+          <div class="reveal flex gap-10 mt-10 pt-8 border-t border-obsidian/8">
+            <div class="text-center">
+              <div class="font-heading font-900 text-[28px] tracking-[-0.02em] text-rust leading-none">5-Yr</div>
+              <div class="stat-label font-heading text-[10px] font-600 tracking-[0.12em] uppercase text-stone mt-3 pt-0 relative">Hold Minimum</div>
+            </div>
+            <div class="text-center">
+              <div class="font-heading font-900 text-[28px] tracking-[-0.02em] text-rust leading-none">U.S.</div>
+              <div class="stat-label font-heading text-[10px] font-600 tracking-[0.12em] uppercase text-stone mt-3 pt-0 relative">Nationwide</div>
+            </div>
+            <div class="text-center">
+              <div class="font-heading font-900 text-[28px] tracking-[-0.02em] text-rust leading-none">Value</div>
+              <div class="stat-label font-heading text-[10px] font-600 tracking-[0.12em] uppercase text-stone mt-3 pt-0 relative">Add Focus</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div class="reveal flex-1 max-w-md w-full">
+          <div class="relative">
+            <div class="absolute -inset-3 bg-rust/5 rounded-2xl -rotate-2" aria-hidden="true"></div>
+            <img src="https://placehold.co/600x440/e8e4de/8B4513?text=Park+Photo" alt="An RV park community" class="relative rounded-xl w-full h-auto shadow-[0_8px_32px_rgba(26,26,26,0.08),0_2px_8px_rgba(26,26,26,0.04)]">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ BUY BOXES ═══════════════ -->
+  <section id="buybox" class="relative bg-white overflow-hidden">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 py-24 md:py-32">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <p class="reveal font-heading text-[11px] font-700 tracking-[0.2em] uppercase text-rust mb-4">What We Buy</p>
+        <h2 class="reveal font-heading font-900 text-[clamp(1.8rem,4vw,2.8rem)] leading-[1.1] tracking-[-0.03em] text-obsidian mb-4">
+          Our Acquisition Criteria
+        </h2>
+        <p class="reveal font-body text-[17px] leading-[1.7] text-stone max-w-lg mx-auto">
+          Check the boxes below for guidance, but don't hesitate to send deals that are close. We're always open to good opportunities.
+        </p>
+      </div>
+
+      <!-- Cards -->
+      <div class="reveal-stagger grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+        <!-- MHP Card -->
+        <div class="reveal buybox-card bg-white border border-black/[0.06] rounded-xl p-8 lg:p-10 shadow-[0_1px_3px_rgba(26,26,26,0.04),0_4px_12px_rgba(26,26,26,0.03)]">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-rust/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-rust" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+              </svg>
+            </div>
+            <h3 class="font-heading font-800 text-[18px] tracking-[-0.01em] text-obsidian">Mobile Home Parks</h3>
+          </div>
+          <ul class="space-y-3.5">
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span><strong class="text-obsidian font-600">50+ pads</strong> minimum — preference for Tenant-Owned Homes; some Park-Owned acceptable</span>
+            </li>
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span><strong class="text-obsidian font-600">$150k+ annual NOI</strong> or meets minimum 50-site threshold with value-add opportunity</span>
+            </li>
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span><strong class="text-obsidian font-600">Within 45 minutes</strong> of growing metros</span>
+            </li>
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span><strong class="text-obsidian font-600">No waste treatment</strong> plants</span>
+            </li>
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span>Open to <strong class="text-obsidian font-600">creative financing</strong>, seller financing, and JVs</span>
+            </li>
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span>Focus on <strong class="text-obsidian font-600">cash flow and value-add</strong> with a 5-year hold</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- RV Park Card -->
+        <div class="reveal buybox-card bg-white border border-black/[0.06] rounded-xl p-8 lg:p-10 shadow-[0_1px_3px_rgba(26,26,26,0.04),0_4px_12px_rgba(26,26,26,0.03)]">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-rust/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-rust" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />
+              </svg>
+            </div>
+            <h3 class="font-heading font-800 text-[18px] tracking-[-0.01em] text-obsidian">RV Parks</h3>
+          </div>
+          <ul class="space-y-3.5">
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span><strong class="text-obsidian font-600">50+ sites</strong> minimum — open to mixed-use parks</span>
+            </li>
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span><strong class="text-obsidian font-600">$150k+ annual NOI</strong> or meets minimum 50-site threshold with value-add opportunity</span>
+            </li>
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span><strong class="text-obsidian font-600">Established or underperforming</strong> parks — transient and long-term</span>
+            </li>
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span><strong class="text-obsidian font-600">No flood zones</strong>, high crime areas, or declining markets</span>
+            </li>
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span>Preference for <strong class="text-obsidian font-600">strong amenity potential</strong> with room for upgrades</span>
+            </li>
+            <li class="flex items-start gap-3 text-[15px] leading-[1.6] text-stone">
+              <span class="mt-1.5 block w-1.5 h-1.5 rounded-full bg-rust flex-shrink-0"></span>
+              <span>Focus on <strong class="text-obsidian font-600">operational improvements</strong>, rent growth, and amenity enhancements</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SEND A DEAL ═══════════════ -->
+  <section id="deal" class="relative bg-warmgrey grain overflow-hidden">
+    <div class="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 py-24 md:py-32">
+      <div class="text-center mb-12">
+        <p class="reveal font-heading text-[11px] font-700 tracking-[0.2em] uppercase text-rust mb-4">Send a Deal</p>
+        <h2 class="reveal font-heading font-900 text-[clamp(1.8rem,4vw,2.8rem)] leading-[1.1] tracking-[-0.03em] text-obsidian mb-4">
+          Have a Park That Fits?
+        </h2>
+        <p class="reveal font-body text-[17px] leading-[1.7] text-stone max-w-md mx-auto">
+          Whether you're a seller, broker, or wholesaler — we want to hear from you.
+        </p>
+      </div>
+
+      <!-- GoHighLevel Form -->
+      <div class="reveal max-w-xl mx-auto">
+        <div class="bg-white rounded-xl shadow-[0_1px_3px_rgba(26,26,26,0.04),0_4px_12px_rgba(26,26,26,0.03)] overflow-hidden">
+          <iframe
+            src="https://calendar.everydayrealestateservices.com/widget/form/stwlkkupbi8X4RqCE6hJ"
+            style="width:100%;height:1192px;border:none;border-radius:3px"
+            id="inline-stwlkkupbi8X4RqCE6hJ"
+            data-layout="{'id':'INLINE'}"
+            data-trigger-type="alwaysShow"
+            data-trigger-value=""
+            data-activation-type="alwaysActivated"
+            data-activation-value=""
+            data-deactivation-type="neverDeactivate"
+            data-deactivation-value=""
+            data-form-name="Overland Collective Buy Box - JV Form"
+            data-height="1192"
+            data-layout-iframe-id="inline-stwlkkupbi8X4RqCE6hJ"
+            data-form-id="stwlkkupbi8X4RqCE6hJ"
+            title="Overland Collective Buy Box - JV Form"
+          ></iframe>
+        </div>
+      </div>
+      <script src="https://calendar.everydayrealestateservices.com/js/form_embed.js"></script>
+    </div>
+  </section>
+
+  <!-- ═══════════════ INVESTOR BANNER ═══════════════ -->
+  <section id="investors" class="relative bg-obsidian overflow-hidden">
+    <!-- Subtle diagonal accent -->
+    <div class="absolute inset-0 opacity-[0.03]" aria-hidden="true">
+      <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-rust/20 to-transparent"></div>
+    </div>
+    <div class="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 py-16 md:py-20 text-center">
+      <h2 class="reveal font-heading font-800 text-[clamp(1.4rem,3vw,2rem)] leading-[1.2] tracking-[-0.02em] text-white mb-3">
+        Interested in Investing?
+      </h2>
+      <p class="reveal font-body text-[16px] leading-[1.7] text-stone mb-8">
+        We're open to creative financing, seller financing, and joint ventures.
+      </p>
+      <a href="mailto:money@overlandparkscollective.com" class="reveal investor-email inline-flex items-center gap-2 px-5 sm:px-7 py-3 border border-rust text-rust font-heading font-700 text-[11px] sm:text-[13px] tracking-[0.04em] sm:tracking-[0.06em] uppercase rounded-lg">
+        <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+        </svg>
+        money@overlandparkscollective.com
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="bg-obsidian border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 py-10 text-center">
+      <img src="brand_assets/overland_collective_logo.png" alt="Overland Collective" class="h-10 w-10 rounded-full mx-auto mb-4 opacity-40">
+      <p class="font-heading text-[11px] font-600 tracking-[0.1em] uppercase text-stone/50 mb-2">
+        &copy; 2026 Overland Collective. Built to Stay.
+      </p>
+      <p class="font-body text-[13px] text-stone/30">
+        Acquiring &amp; Operating RV Parks and Mobile Home Parks Across the United States
+      </p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════ SCRIPTS ═══════════════ -->
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const bar1 = document.getElementById('bar1');
+    const bar2 = document.getElementById('bar2');
+    const bar3 = document.getElementById('bar3');
+    let menuOpen = false;
+
+    menuToggle.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('open', menuOpen);
+      bar1.style.transform = menuOpen ? 'rotate(45deg) translate(4px, 4px)' : '';
+      bar2.style.opacity = menuOpen ? '0' : '1';
+      bar3.style.transform = menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : '';
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        menuOpen = false;
+        mobileMenu.classList.remove('open');
+        bar1.style.transform = '';
+        bar2.style.opacity = '1';
+        bar3.style.transform = '';
+      });
+    });
+
+    // Scroll reveal observer
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // Sticky nav shadow on scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        nav.style.boxShadow = '0 1px 8px rgba(26,26,26,0.06)';
+      } else {
+        nav.style.boxShadow = 'none';
+      }
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
