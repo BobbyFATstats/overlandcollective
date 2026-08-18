@@ -460,29 +460,53 @@
         </p>
       </div>
 
-      <!-- GoHighLevel Form -->
-      <div class="reveal max-w-xl mx-auto">
-        <div class="bg-white rounded-xl shadow-[0_1px_3px_rgba(26,26,26,0.04),0_4px_12px_rgba(26,26,26,0.03)] overflow-hidden">
+      <!-- Orbit intake form. Replaces the old GoHighLevel embed (Orbit ADR 0032):
+           submissions now run Orbit's duplicate + buy box checks, send the sender
+           a result email, and can offer a call booking. Same-site iframe, so the
+           form's own uploads and address autocomplete work unchanged. -->
+      <div class="reveal max-w-2xl mx-auto">
+        <div class="bg-white rounded-xl shadow-[0_1px_3px_rgba(26,26,26,0.04),0_4px_12px_rgba(26,26,26,0.03)] overflow-hidden px-5 py-6 sm:px-6">
           <iframe
-            src="https://calendar.everydayrealestateservices.com/widget/form/stwlkkupbi8X4RqCE6hJ"
-            style="width:100%;height:1192px;border:none;border-radius:3px"
-            id="inline-stwlkkupbi8X4RqCE6hJ"
-            data-layout="{'id':'INLINE'}"
-            data-trigger-type="alwaysShow"
-            data-trigger-value=""
-            data-activation-type="alwaysActivated"
-            data-activation-value=""
-            data-deactivation-type="neverDeactivate"
-            data-deactivation-value=""
-            data-form-name="Overland Collective Buy Box - JV Form"
-            data-height="1192"
-            data-layout-iframe-id="inline-stwlkkupbi8X4RqCE6hJ"
-            data-form-id="stwlkkupbi8X4RqCE6hJ"
-            title="Overland Collective Buy Box - JV Form"
+            id="orbit-form"
+            src="https://orbit.overlandparkscollective.com/submit?embed=1"
+            title="Send a deal to Overland Collective"
+            loading="lazy"
+            style="width:100%;height:2400px;min-height:640px;border:none;display:block"
           ></iframe>
         </div>
       </div>
-      <script src="https://calendar.everydayrealestateservices.com/js/form_embed.js"></script>
+
+      <script>
+        // The form reports its own content height as it changes, so there is no
+        // fixed height to keep in sync (the old embed was pinned at 1192px, and
+        // this form runs past 2400px). It also announces the post-submit result
+        // screen, which replaces a long form with a short one.
+        (function () {
+          var ORBIT_ORIGIN = 'https://orbit.overlandparkscollective.com';
+          var frame = document.getElementById('orbit-form');
+          if (!frame) return;
+
+          window.addEventListener('message', function (event) {
+            if (event.origin !== ORBIT_ORIGIN) return;
+            var data = event.data;
+            if (!data || typeof data !== 'object') return;
+
+            if (data.type === 'orbit:height' && typeof data.px === 'number' && data.px > 0) {
+              frame.style.height = data.px + 'px';
+              return;
+            }
+
+            if (data.type === 'orbit:submitted') {
+              // Bring the top of the form back into view, otherwise the reader is
+              // left looking at whatever the taller form used to occupy. 80px is
+              // the site's own scroll-margin-top for the fixed nav.
+              var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+              var top = frame.getBoundingClientRect().top + window.pageYOffset - 80;
+              window.scrollTo({ top: top, behavior: reduceMotion ? 'auto' : 'smooth' });
+            }
+          });
+        })();
+      </script>
     </div>
   </section>
 
