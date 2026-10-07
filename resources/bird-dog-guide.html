@@ -136,6 +136,45 @@
     .btn-submit:focus-visible { outline: 2px solid #C4651A; outline-offset: 3px; }
 
     .check-item svg { flex-shrink: 0; margin-top: 3px; }
+
+    /* Native guide form (no transitions: focus applies instantly) */
+    .gf-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 16px;
+    }
+    @media (min-width: 768px) { .gf-input { font-size: 15px; } }
+    .gf-input::placeholder { color: rgba(255,255,255,0.35); }
+    .gf-input:focus { outline: none; border-color: #C4651A; box-shadow: 0 0 0 3px rgba(196,101,26,0.2); }
+    .gf-input[aria-invalid="true"] { border-color: #F0A27A; }
+    .gf-input--icon { padding-left: 44px; }
+    .gf-input-icon {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px; color: rgba(255,255,255,0.4); pointer-events: none;
+    }
+    .gf-error { margin-top: 6px; font-family: 'Source Serif 4', Georgia, serif; font-size: 13px; line-height: 1.5; color: #F0A27A; }
+    .gf-check {
+      appearance: none; -webkit-appearance: none; flex-shrink: 0;
+      width: 18px; height: 18px; margin-top: 3px; cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.35); border-radius: 4px; background: rgba(255,255,255,0.08);
+      background-position: center; background-repeat: no-repeat; background-size: 12px 12px;
+    }
+    .gf-check:hover { border-color: #C4651A; }
+    .gf-check:active { transform: scale(0.92); }
+    .gf-check:checked {
+      background-color: #C4651A; border-color: #C4651A;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 12.75l6 6 9-13.5'/%3E%3C/svg%3E");
+    }
+    .gf-check:focus-visible { outline: 2px solid #C4651A; outline-offset: 3px; }
+    .btn-submit:disabled { transform: none; box-shadow: none; }
+    #gf-success:not([hidden]) { animation: gf-in 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes gf-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { #gf-success:not([hidden]) { animation: none; } }
   </style>
 </head>
 <body class="bg-white text-obsidian font-body antialiased">
@@ -210,25 +249,103 @@
               Enter your info below and we'll send it to your email instantly.
             </p>
 
-            <iframe
-              src="https://calendar.everydayrealestateservices.com/widget/form/ui6Zlf5B5iffZZreQUGB"
-              style="width:100%;height:773px;border:none;border-radius:3px"
-              id="inline-ui6Zlf5B5iffZZreQUGB"
-              data-layout="{'id':'INLINE'}"
-              data-trigger-type="alwaysShow"
-              data-trigger-value=""
-              data-activation-type="alwaysActivated"
-              data-activation-value=""
-              data-deactivation-type="neverDeactivate"
-              data-deactivation-value=""
-              data-form-name="Lead Magnet - Bird Dog Reference Guide - Overland Collective"
-              data-height="773"
-              data-layout-iframe-id="inline-ui6Zlf5B5iffZZreQUGB"
-              data-form-id="ui6Zlf5B5iffZZreQUGB"
-              title="Lead Magnet - Bird Dog Reference Guide - Overland Collective"
-            ></iframe>
+            <form id="guide-form" novalidate class="space-y-4">
+              <div>
+                <label for="gf-first_name" class="sr-only">First Name</label>
+                <input id="gf-first_name" name="first_name" type="text" required autocomplete="given-name" maxlength="80" placeholder="First Name" class="gf-input">
+                <p id="gf-err-first_name" class="gf-error" hidden></p>
+              </div>
+              <div>
+                <label for="gf-email" class="sr-only">Email</label>
+                <div class="relative">
+                  <svg class="gf-input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+                  <input id="gf-email" name="email" type="email" required autocomplete="email" maxlength="254" placeholder="Email" class="gf-input gf-input--icon">
+                </div>
+                <p id="gf-err-email" class="gf-error" hidden></p>
+              </div>
+              <div>
+                <label for="gf-phone" class="sr-only">Phone</label>
+                <input id="gf-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" placeholder="Phone (optional)" class="gf-input">
+                <p id="gf-err-phone" class="gf-error" hidden></p>
+              </div>
+
+              <div style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true"><label for="gf-website">Website</label><input id="gf-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+
+              <label for="gf-opt_in" class="flex items-start gap-3 cursor-pointer pt-1">
+                <input id="gf-opt_in" name="opt_in" type="checkbox" class="gf-check">
+                <span class="font-body text-[14px] leading-[1.6] text-white/75">I'd like to receive updates on opportunities to partner, new resources, guides and training.</span>
+              </label>
+
+              <p id="gf-err-form" class="gf-error focus:outline-none" role="alert" tabindex="-1" hidden></p>
+
+              <button type="submit" class="btn-submit w-full bg-rust hover:bg-rust-light active:bg-rust-dark text-white font-heading font-bold text-[14px] tracking-[0.08em] uppercase py-4 rounded-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-rust disabled:active:bg-rust">SEND IT OVER</button>
+            </form>
+
+            <div id="gf-success" hidden role="status" tabindex="-1" class="text-center py-8 focus:outline-none">
+              <h2 class="font-heading font-extrabold text-[22px] leading-[1.25] tracking-[-0.02em] text-white mb-3">Check your inbox, <span id="gf-name"></span>.</h2>
+              <p class="font-body text-[16px] leading-[1.7] text-white/80 mb-2">Your Bird Dog Guide is on its way.</p>
+              <p class="font-body text-[13px] leading-[1.6] text-white/50">Not there in a few minutes? Check your spam folder.</p>
+            </div>
+
+            <script>
+            (() => {
+              const ENDPOINT = 'https://orbit.overlandparkscollective.com/api/resources/request';
+              const form = document.getElementById('guide-form');
+              const btn = form.querySelector('button[type="submit"]');
+              const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              const GENERIC = 'Something went wrong. Please try again, or email info@overlandparkscollective.com.';
+              const show = (field, msg) => {
+                const el = document.getElementById('gf-err-' + field); if (!el) return;
+                el.textContent = msg; el.hidden = !msg;
+                const input = form.elements[field];
+                if (input) { input.setAttribute('aria-invalid', msg ? 'true' : 'false'); if (msg) input.setAttribute('aria-describedby', el.id); else input.removeAttribute('aria-describedby'); }
+              };
+              const clear = () => ['first_name', 'email', 'phone', 'form'].forEach((f) => show(f, ''));
+              form.addEventListener('submit', async (e) => {
+                e.preventDefault(); clear();
+                const first = form.elements.first_name.value.trim();
+                const email = form.elements.email.value.trim();
+                let bad = false;
+                if (!first) { show('first_name', 'Please enter your first name.'); bad = true; }
+                if (!EMAIL_RE.test(email)) { show('email', 'Please enter a valid email.'); bad = true; }
+                if (bad) { form.querySelector('[aria-invalid="true"]').focus(); return; }
+                btn.disabled = true; const label = btn.textContent; btn.textContent = 'Sending…';
+                try {
+                  // AbortController + setTimeout (AbortSignal.timeout throws on Safari/iOS < 16).
+                  const ctl = new AbortController();
+                  const timer = setTimeout(() => ctl.abort(), 15000);
+                  let res, data;
+                  try {
+                    res = await fetch(ENDPOINT, { method: 'POST', signal: ctl.signal, headers: { 'content-type': 'application/json' }, body: JSON.stringify({
+                      resource: 'bird-dog-guide', first_name: first, email, phone: form.elements.phone.value.trim(),
+                      opt_in: form.elements.opt_in.checked, page_url: location.href, website: form.elements.website.value }) });
+                    data = await res.json().catch(() => ({}));
+                  } finally { clearTimeout(timer); }
+                  if (res.ok && data.ok) {
+                    document.getElementById('gf-name').textContent = first;
+                    form.hidden = true;
+                    const ok = document.getElementById('gf-success'); ok.hidden = false; ok.focus();
+                    if (typeof gtag === 'function') gtag('event', 'generate_lead', { form: 'bird_dog_guide' });
+                    return;
+                  }
+                  if (res.status === 400 && data.errors) {
+                    const formMsgs = [];
+                    Object.entries(data.errors).forEach(([k, v]) => {
+                      if (k !== 'form' && document.getElementById('gf-err-' + k)) show(k, String(v || ''));
+                      else if (v) formMsgs.push(String(v));
+                    });
+                    if (formMsgs.length) show('form', formMsgs.join(' '));
+                    if (!form.querySelector('.gf-error:not([hidden])')) show('form', GENERIC);
+                  }
+                  else if (res.status === 429) { show('form', 'Too many requests. Please try again in a little while.'); }
+                  else { show('form', GENERIC); }
+                } catch { show('form', GENERIC); }
+                btn.disabled = false; btn.textContent = label;
+                (form.querySelector('[aria-invalid="true"]') || document.getElementById('gf-err-form')).focus();
+              });
+            })();
+            </script>
           </div>
-          <script src="https://calendar.everydayrealestateservices.com/js/form_embed.js"></script>
 
           <!-- RIGHT: Guide Description -->
           <div class="py-4">
