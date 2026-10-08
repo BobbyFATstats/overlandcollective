@@ -47,8 +47,7 @@ gcloud ADC login (has `analytics.edit`); re-read confirms. Properties 556612296 
   JSON-LD uses it because crawlers fetch it and Google recommends ≥112px, so 512 is plenty.
 
 ## Useful context
-- Kit quirk: `ga-key-event --property 557875397` returns an HTTP 404; it needs `properties/557875397`.
-  Worth fixing in `site-launch-kit` (normalise the prefix).
+- Kit quirk (fixed 2026-10-08, site-launch-kit `build/v0.1`): `ga-key-event --property 557875397` returned an HTTP 404; it now accepts the bare ID or `properties/<id>` and rejects a `G-` measurement ID.
 - Agent scripts (Playwright, iframe message test) were scratch and not kept in the repo.
 
 ## Open
